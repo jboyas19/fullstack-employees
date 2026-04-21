@@ -1,10 +1,13 @@
-import app from "#app";
-import db from "#db/client";
+import app from './app.js';
+import client from './db/client.js';
+import { seedEmployees } from './db/seed.js';
 
-const PORT = process.env.PORT ?? 3000;
+const PORT = process.env.PORT || 3000;
 
-await db.connect();
+async function startServer() {
+  await client.connect();
+  await seedEmployees();
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
 
-app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}...`);
-});
+startServer();
